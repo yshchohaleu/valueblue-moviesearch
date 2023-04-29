@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using MovieSearch.Application.Entities.Movies;
 using MovieSearch.Application.Entities.Requests;
 using MovieSearch.Application.Ports;
@@ -11,15 +12,18 @@ public class SearchRequestLogDecorator : ISearchMovie
     private readonly ISearchMovie _movieSearcherBase;
     private readonly ISearchRequestRepository _searchRequestRepository;
     private readonly IUserContextProvider _userContextProvider;
+    private readonly ILogger<SearchRequestLogDecorator> _logger;
 
     public SearchRequestLogDecorator(
         ISearchMovie movieSearcherBase, 
         ISearchRequestRepository searchRequestRepository, 
-        IUserContextProvider userContextProvider)
+        IUserContextProvider userContextProvider, 
+        ILogger<SearchRequestLogDecorator> logger)
     {
         _movieSearcherBase = movieSearcherBase;
         _searchRequestRepository = searchRequestRepository;
         _userContextProvider = userContextProvider;
+        _logger = logger;
     }
 
     public async Task<Movie> SearchByTitleAsync(string title)
@@ -29,13 +33,21 @@ public class SearchRequestLogDecorator : ISearchMovie
         var result = await _movieSearcherBase.SearchByTitleAsync(title);
         sw.Stop();
 
-        await _searchRequestRepository.SaveAsync(SearchRequest.New(
-            title,
-            result.ImdbId,
-            sw.ElapsedMilliseconds,
-            DateTime.UtcNow,
-            _userContextProvider.UserContext.GetStringValueOrNull(UserContextConstants.UserProperties.IpAddress)
-        ));
+        try
+        {
+            await _searchRequestRepository.SaveAsync(SearchRequest.New(
+                title,
+                result.ImdbId,
+                sw.ElapsedMilliseconds,
+                DateTime.UtcNow,
+                _userContextProvider.UserContext.GetStringValueOrNull(UserContextConstants.UserProperties.IpAddress)
+            ));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e,  "Error during saving request");
+            throw;
+        }
         
         return result;
     }
