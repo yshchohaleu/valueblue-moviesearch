@@ -45,6 +45,11 @@ public class AdminController : ControllerBase
         return Ok(response);
     }
     
+    /// <summary>
+    /// Return the statistics of search requests per day.
+    /// </summary>
+    /// <param name="date">Should be in the format {dd}-{mm}-{yyyy}</param>
+    /// <returns></returns>
     [HttpGet("SearchRequests/Statistics")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DailyRequestStatistics))]
     public async Task<IActionResult> GetStatisticsAsync([FromQuery][Required] string date)
