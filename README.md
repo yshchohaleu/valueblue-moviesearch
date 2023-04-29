@@ -5,9 +5,9 @@
 
 | Task | Estimations | Comments |
 | ----------- | ----------- | ----------- |
-| initial project structure and base features (base mongo db repository, exception handling, api controllers, user context, swagger configuration) | 4h | Took longer, spent time checking mongo db docs |
+| initial project structure and base features (base mongo db repository, exception handling, api controllers, user context, swagger configuration) | 2h | Took longer, spent time checking mongo db docs |
 | omdb integration | 2h |
-| search request operations (save, get, delete, statistics) | 5h |  Took longer, spent time checking mongo db docs |
+| search request operations (save, get, delete, statistics) | 3h |  Took longer, spent time checking mongo db docs |
 | api key protection | 1h | |
 | unit tests | 2h | |
 
