@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Api", "MovieSearch.Api\MovieSearch.Api.csproj", "{992CC09A-7BC9-4A74-A604-9981D5CFAD82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Infrastructure.MongoDb", "MovieSearch.Infrastructure.MongoDb\MovieSearch.Infrastructure.MongoDb.csproj", "{33B3C6FF-B26D-4307-A4BB-94A6D039E9F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Tests", "MovieSearch.Tests\MovieSearch.Tests.csproj", "{9A8BA12A-5DB2-45D0-939A-E3483CA40ACC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Application", "MovieSearch.Application\MovieSearch.Application.csproj", "{183DB98F-E467-47C0-87B1-64B223AF8F1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Shared", "MovieSearch.Shared\MovieSearch.Shared.csproj", "{72765318-BBF6-4479-B164-5A261B6B4756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearch.Providers.Omdb", "MovieSearch.Providers.Omdb\MovieSearch.Providers.Omdb.csproj", "{B3553081-E30B-47F8-9F74-B2903AD7AC22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{992CC09A-7BC9-4A74-A604-9981D5CFAD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992CC09A-7BC9-4A74-A604-9981D5CFAD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992CC09A-7BC9-4A74-A604-9981D5CFAD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992CC09A-7BC9-4A74-A604-9981D5CFAD82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33B3C6FF-B26D-4307-A4BB-94A6D039E9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33B3C6FF-B26D-4307-A4BB-94A6D039E9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33B3C6FF-B26D-4307-A4BB-94A6D039E9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33B3C6FF-B26D-4307-A4BB-94A6D039E9F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A8BA12A-5DB2-45D0-939A-E3483CA40ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A8BA12A-5DB2-45D0-939A-E3483CA40ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A8BA12A-5DB2-45D0-939A-E3483CA40ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A8BA12A-5DB2-45D0-939A-E3483CA40ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183DB98F-E467-47C0-87B1-64B223AF8F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183DB98F-E467-47C0-87B1-64B223AF8F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183DB98F-E467-47C0-87B1-64B223AF8F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183DB98F-E467-47C0-87B1-64B223AF8F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72765318-BBF6-4479-B164-5A261B6B4756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72765318-BBF6-4479-B164-5A261B6B4756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72765318-BBF6-4479-B164-5A261B6B4756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72765318-BBF6-4479-B164-5A261B6B4756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3553081-E30B-47F8-9F74-B2903AD7AC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3553081-E30B-47F8-9F74-B2903AD7AC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3553081-E30B-47F8-9F74-B2903AD7AC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3553081-E30B-47F8-9F74-B2903AD7AC22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
