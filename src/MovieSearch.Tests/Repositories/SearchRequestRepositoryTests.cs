@@ -60,7 +60,20 @@ public class SearchRequestRepositoryTests : MongoDbTest
     }
     
     [Test]
-    public async Task Given_NotSavedRequestsPerDay_When_StatisticsCalculated_ShouldNotReturn()
+    public async Task Given_SavedRequestsPerDay_When_StatisticsAbsent_ShouldReturnZero()
+    {
+        var date = DateTime.Parse("2023-03-01");
+        
+        // act
+        var dailyStatistics = await _sut!.GetDailyStatisticsAsync(date);
+        
+        // assert
+        dailyStatistics!.Date.Should().Be(date);
+        dailyStatistics!.RequestCount.Should().Be(0);
+    }
+    
+    [Test]
+    public async Task Given_NotSavedRequestsPerDay_When_StatisticsCalculated_ShouldReturnZero()
     {
         var date = DateTime.Parse("2023-04-10");
         
@@ -68,7 +81,7 @@ public class SearchRequestRepositoryTests : MongoDbTest
         var dailyStatistics = await _sut!.GetDailyStatisticsAsync(date);
         
         // assert
-        dailyStatistics.Should().BeNull();
+        dailyStatistics.Should().Be(DailyRequestStatistics.Zero(date));
     }
     
     [Test]

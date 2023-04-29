@@ -87,23 +87,15 @@ namespace MovieSearch.Infrastructure.MongoDb.Repositories
 
         public async Task<DailyRequestStatistics?> GetDailyStatisticsAsync(DateTime date)
         {
-            var result = await Collection.Aggregate()
+            AggregateCountResult result = await Collection.Aggregate()
                 .Match(k => k.Timestamp >= date.Date && k.Timestamp < date.Date.AddDays(1).AddTicks(-1))
-                .Group(k => new
-                    {
-                        year = k.Timestamp.Year,
-                        month = k.Timestamp.Month,
-                        day = k.Timestamp.Day
-                    },
-                    g => new { _id = g.Key, count = g.Count() }
-                )
-                .SortBy(d => d._id)
-                .SingleOrDefaultAsync();
+                .Count()
+                .FirstOrDefaultAsync();
 
             return result != null
-                ? new DailyRequestStatistics(new DateTime(result._id.year, result._id.month, result._id.day),
-                    result.count)
-                : null;
+                ? new DailyRequestStatistics(date.Date,
+                    result.Count)
+                : DailyRequestStatistics.Zero(date.Date);
         }
 
         public Task DeleteAsync(string id)
