@@ -3,23 +3,20 @@
 
 ## Estimations:
 
-
-    - initial project structure and base features
-        - base mongo db repository
-        - exception handling
-        - user context
-        - swagger configuration
-    - omdb integration
-    - search request operations (save, get, delete, statistics)
-    - API Key protection
-    - unit tests
+| Task | Estimations | Comments |
+| ----------- | ----------- | ----------- |
+| initial project structure and base features (base mongo db repository, exception handling, api controllers, user context, swagger configuration) | 4h | Took longer, spent time checking mongo db docs |
+| omdb integration | 2h |
+| search request operations (save, get, delete, statistics) | 5h |  Took longer, spent time checking mongo db docs |
+| api key protection | 1h | |
+| unit tests | 2h | |
 
 
 ## Architecture
 
 
 The app is built with some sort of onion architecture.
-Domain and Application here were united into one `Application` project as domain does not really contain any complex entities with their own logic. Plus in this project in `Ports` folder we define interfaces required for application handlers.
+Domain and Application parts here were united into one `Application` project as domain does not really contain any complex entities with their own logic. Plus in this project in `Ports` folder we define interfaces required for application handlers.
 
 
 Two separate projects `Infrastructure.MongoDb` and `Providers.Omdb` contain the logic for database access implementation and external API integration accordingly. They implement interfaces defined in `Application`.
@@ -125,4 +122,6 @@ For repository unit tests the `EphemeralMongo6` package is used to run mongo db 
 
 1. Add proper logging (for example seq)
 2. Better error handling with correlation id
-2. Integration test
+3. Integration test
+4. Support of value objects - this is a really nice improvement to begin to use them in `SearchRequest` entity. But it requires more time to implement a proper serializator for mongo db.
+5. Add more layers of DTOs. For example in controllers level. But for such a small solution it is not required and we can just return entities we use in the `Application` project.
