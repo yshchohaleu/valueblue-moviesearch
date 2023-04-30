@@ -41,24 +41,23 @@ public class GetSearchRequestStatisticsQueryHandlerTests
     }
     
     [Test]
-    public async Task Given_RequestStatistics_NotFound_ShouldThrow()
+    public async Task Given_RequestStatistics_WithZeroStatistics_ShouldReturn()
     {
         var fixture = new TestFixture();
+        var date = fixture.Create<DateTime>();
 
         var sut = fixture
-            .WithStatistics(null)
+            .WithStatistics(DailyRequestStatistics.Zero(date))
             .GetHandler();
 
         // act
-        Func<Task> act = async () =>
-        {
-            await sut.Handle(new GetSearchRequestStatisticsQuery(
-                fixture.Create<DateTime>()
+        var result = await sut.Handle(new GetSearchRequestStatisticsQuery(
+                date
             ), CancellationToken.None);
-        };
 
         // assert
-        await act.Should().ThrowAsync<NotFoundException>();
+        result.RequestCount.Should().Be(0);
+        result.Date.Should().Be(date);
     }
     
     private class TestFixture : Fixture
@@ -70,7 +69,7 @@ public class GetSearchRequestStatisticsQueryHandlerTests
             _searchRequestRepository = this.Freeze<Mock<ISearchRequestRepository>>();
         }
 
-        public TestFixture WithStatistics(DailyRequestStatistics? statistics)
+        public TestFixture WithStatistics(DailyRequestStatistics statistics)
         {
             _searchRequestRepository.Setup(x =>
                     x.GetDailyStatisticsAsync(It.IsAny<DateTime>()))

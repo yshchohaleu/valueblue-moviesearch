@@ -6,6 +6,7 @@ using MovieSearch.Application.Entities.Requests;
 using MovieSearch.Application.Queries.GetSearchRequest;
 using MovieSearch.Application.Queries.GetSearchRequests;
 using MovieSearch.Application.Queries.GetSearchRequestStatistics;
+using MovieSearch.Application.Queries.GetSearchRequestStatisticsRange;
 using MovieSearch.Application.Requests.DeleteSearchRequest;
 
 namespace MovieSearch.Api.Controllers;
@@ -46,7 +47,7 @@ public class AdminController : ControllerBase
     }
     
     /// <summary>
-    /// Return the statistics of search requests per day.
+    /// Return the statistics of search requests per given day.
     /// </summary>
     /// <param name="date">Should be in the format {dd}-{mm}-{yyyy}</param>
     /// <returns></returns>
@@ -57,6 +58,26 @@ public class AdminController : ControllerBase
         if (DateTime.TryParse(date, out DateTime parsedDate))
         {
             var response = await _mediator.Send(new GetSearchRequestStatisticsQuery(parsedDate));
+            return Ok(response);
+        }
+
+        return BadRequest();
+    }
+    
+    /// <summary>
+    /// Return the statistics of search requests per day range.
+    /// </summary>
+    /// <param name="from">Should be in the format {dd}-{mm}-{yyyy}</param>
+    /// <param name="to">Should be in the format {dd}-{mm}-{yyyy}</param>
+    /// <returns></returns>
+    [HttpGet("SearchRequests/Statistics/Range")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DailyRequestStatistics[]))]
+    public async Task<IActionResult> GetStatisticsAsync([FromQuery][Required] string from, [FromQuery][Required] string to)
+    {
+        if (DateTime.TryParse(from, out DateTime parsedFrom) && DateTime.TryParse(to, out DateTime parsedTo))
+        {
+            var response = 
+                await _mediator.Send(new GetSearchRequestStatisticsRangeQuery(parsedFrom, parsedTo));
             return Ok(response);
         }
 

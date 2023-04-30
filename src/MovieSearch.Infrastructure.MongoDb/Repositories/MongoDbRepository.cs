@@ -18,7 +18,7 @@ public abstract class MongoDbRepository<TEntity> where TEntity : class, IEntity
     
     protected abstract string CollectionName { get; }
 
-    protected async Task<TEntity> GetItemAsync(string id)
+    protected async Task<TEntity?> GetItemAsync(string id)
     {
         var filter = Builders<TEntity>.Filter.Eq(doc => doc.Id, id);
         var result = await Collection.FindAsync(filter);

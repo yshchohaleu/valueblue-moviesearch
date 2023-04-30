@@ -85,7 +85,7 @@ namespace MovieSearch.Infrastructure.MongoDb.Repositories
             return new SearchRequests(data.ToArray(), page, count);
         }
 
-        public async Task<DailyRequestStatistics?> GetDailyStatisticsAsync(DateTime date)
+        public async Task<DailyRequestStatistics> GetDailyStatisticsAsync(DateTime date)
         {
             AggregateCountResult result = await Collection.Aggregate()
                 .Match(k => k.Timestamp >= date.Date && k.Timestamp < date.Date.AddDays(1).AddTicks(-1))
@@ -103,9 +103,29 @@ namespace MovieSearch.Infrastructure.MongoDb.Repositories
             return base.DeleteOneAsync(id);
         }
 
-        public Task<SearchRequest> GetByIdAsync(string id)
+        public Task<SearchRequest?> GetByIdAsync(string id)
         {
             return base.GetItemAsync(id);
+        }
+        
+        public async Task<IReadOnlyCollection<DailyRequestStatistics>> GetDailyStatisticsAsync(DateTime from, DateTime to)
+        {
+            var result = await Collection.Aggregate()
+                .Match(k => k.Timestamp >= from.Date && k.Timestamp < to.Date.AddDays(1).AddTicks(-1))
+                .Group(k => new
+                    {
+                        year = k.Timestamp.Year,
+                        month = k.Timestamp.Month,
+                        day = k.Timestamp.Day
+                    },
+                    g => new { _id = g.Key, count = g.Count() }
+                )
+                .SortBy(d => d._id)
+                .ToListAsync();
+
+            return result != null
+                ? result.Select(x => new DailyRequestStatistics(new DateTime(x._id.year, x._id.month, x._id.day), x.count)).ToArray()
+                : Array.Empty<DailyRequestStatistics>();
         }
     }
 }

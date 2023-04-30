@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MovieSearch.Application.Entities.Requests;
+using MovieSearch.Application.Exceptions;
 using MovieSearch.Application.Ports;
 
 namespace MovieSearch.Application.Queries.GetSearchRequest;
@@ -13,8 +14,14 @@ public class GetSearchRequestQueryHandler : IRequestHandler<GetSearchRequestQuer
         _searchRequestRepository = searchRequestRepository;
     }
 
-    public Task<SearchRequest> Handle(GetSearchRequestQuery requestQuery, CancellationToken cancellationToken)
+    public async Task<SearchRequest> Handle(GetSearchRequestQuery requestQuery, CancellationToken cancellationToken)
     {
-        return _searchRequestRepository.GetByIdAsync(requestQuery.Id);
+        var response = await _searchRequestRepository.GetByIdAsync(requestQuery.Id);
+        if (response is null)
+        {
+            throw new NotFoundException($"Search request with Id = {requestQuery.Id}");
+        }
+
+        return response!;
     }
 }

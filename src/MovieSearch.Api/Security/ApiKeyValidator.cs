@@ -16,6 +16,8 @@ public class ApiKeyValidator : IValidateApiKey
         if (string.IsNullOrWhiteSpace(apiKey))
             return Task.FromResult(false);
         
-        return Task.FromResult(_securitySettings.Value.ApiKeys.Contains(apiKey));
+        return Task.FromResult(
+            _securitySettings.Value.ApiKeys
+                .Contains(apiKey, StringComparer.InvariantCultureIgnoreCase));
     }
 }

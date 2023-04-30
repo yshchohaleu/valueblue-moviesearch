@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MovieSearch.Application.Entities.Requests;
@@ -57,6 +58,40 @@ public class SearchRequestRepositoryTests : MongoDbTest
         dailyStatistics.Should().NotBeNull();
         dailyStatistics!.Date.Should().Be(date);
         dailyStatistics!.RequestCount.Should().Be(2);
+    }
+    
+    [Test]
+    public async Task Given_SavedRequestsPerDays_When_StatisticsCalculated_ShouldReturn()
+    {
+        var from = DateTime.Parse("2023-04-27");
+        var to = DateTime.Parse("2023-05-02");
+        
+        // act
+        var result = await _sut!.GetDailyStatisticsAsync(from, to);
+        
+        // assert
+        result.Should().HaveCount(5);
+        result.Should().BeEquivalentTo(new List<DailyRequestStatistics>()
+        {
+            new (DateTime.Parse("2023-04-27"), 2),
+            new (DateTime.Parse("2023-04-28"), 1),
+            new (DateTime.Parse("2023-04-29"), 1),
+            new (DateTime.Parse("2023-04-30"), 1),
+            new (DateTime.Parse("2023-05-02"), 1),
+        });
+    }
+    
+    [Test]
+    public async Task Given_SavedRequestsPerDays_When_StatisticsAbsent_ShouldReturnEmpty()
+    {
+        var from = DateTime.Parse("2023-03-01");
+        var to = DateTime.Parse("2023-03-02");
+        
+        // act
+        var result = await _sut!.GetDailyStatisticsAsync(from, to);
+        
+        // assert
+        result.Should().HaveCount(0);
     }
     
     [Test]
