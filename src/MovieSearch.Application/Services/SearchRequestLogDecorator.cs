@@ -46,7 +46,6 @@ public class SearchRequestLogDecorator : ISearchMovie
         catch (Exception e)
         {
             _logger.LogError(e,  "Error during saving request");
-            throw;
         }
         
         return result;
